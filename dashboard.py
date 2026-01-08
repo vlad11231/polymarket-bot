@@ -4,10 +4,9 @@ from pathlib import Path
 
 app = Flask(__name__)
 STATE = Path("state.json")
-NIGHT = Path("night_log.json")
 
-def load(p):
-    return json.loads(p.read_text()) if p.exists() else {}
+def load():
+    return json.loads(STATE.read_text()) if STATE.exists() else {}
 
 @app.route("/")
 def home():
@@ -15,11 +14,7 @@ def home():
 
 @app.route("/api/state")
 def state():
-    return jsonify(load(STATE))
-
-@app.route("/api/night")
-def night():
-    return jsonify(load(NIGHT))
+    return jsonify(load())
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
